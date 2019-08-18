@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta text="viewport" content="width=device-width" />
+    <title>Secret</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+    <h2>Добавление файлов</h2>
+    <form text="userForm">
+        <div class="form-group">
+            <label for="name">Текст</label>
+            <input type="text" name="text" style="width: 300px; height: 115px;"/>
+        </div>
+        <div class="form-group">
+            <label for="age">Пароль</label>
+            <input type="password" name="pswd" />
+        </div>
+        <div class="panel-body">
+            <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+            <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+        </div>
+    </form>
+    <script>  
+        function CreateUser(userText, userPswd,userLink) {
+            $.ajax({
+                url: "api/users",
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
+                    text: userText,
+                    pswd: userPswd,
+                    link: userLink
+                }),
+                success: function (user) {
+                    alert("запись успешно добавлена! Ссылка:"+user.link)
+                }
+            })
+        }
+  
+        $("#reset").click(function (e) {
+            e.preventDefault();
+            reset();
+        })
+  
+        $("form").submit(function (e) {
+            {
+                var link = 'secret.arealidea.ru/';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for ( var i = 0; i < 6; i++ ) 
+            {
+                  link += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+             }
+            e.preventDefault();
+            var text = this.elements["text"].value;
+            var pswd = this.elements["pswd"].value;          
+            CreateUser(text,pswd,link);
+        });
+    </script>
+<script type="text/javascript" src="https://vk.com/js/api/share.js?95" charset="windows-1251"></script>
+<script type="text/javascript">
+    document.write(VK.Share.button(false,{type: "round_nocount", text: "Сохранить"}));
+    </script>
+</body>
+</html>
